@@ -1,7 +1,7 @@
 package tk.mohithaiyappa.coffeeprices
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.Dispatchers
@@ -10,11 +10,12 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import tk.mohithaiyappa.coffeeprices.adapter.RecyclerViewAdapter
 import tk.mohithaiyappa.coffeeprices.repository.CoffeePricesApi
-import tk.mohithaiyappa.coffeeprices.repository.CoffeePricesData
 import tk.mohithaiyappa.coffeeprices.repository.CoffeePricesDataList
+import javax.inject.Inject
 
 
 class MainActivity : AppCompatActivity() {
+
     private var pricesList : List<CoffeePricesDataList.Data> = emptyList()
     private lateinit var newData : CoffeePricesDataList.Data
     private lateinit var oldData : CoffeePricesDataList.Data
@@ -22,9 +23,15 @@ class MainActivity : AppCompatActivity() {
     lateinit var layoutManager: LinearLayoutManager
     //private var runAgain:Boolean=true
 
+    @Inject
+    lateinit var service: CoffeePricesApi
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        (application as CoffeeApplication).coffeePriceComponent.inject(this)
+
         //while (runAgain){
             getData()
         //}
@@ -33,6 +40,7 @@ class MainActivity : AppCompatActivity() {
 
 
     }
+
     fun setupRecyclerView(){
         layoutManager = LinearLayoutManager(this)
         recycler_view.layoutManager =layoutManager
@@ -40,9 +48,9 @@ class MainActivity : AppCompatActivity() {
         adapter = RecyclerViewAdapter(newData,oldData,this)
         recycler_view.adapter= adapter
     }
+
     fun getData(){
         //Toast.makeText(this,"in get data method",Toast.LENGTH_SHORT).show()
-        val service = CoffeePricesApi.startApi()
         GlobalScope.launch(Dispatchers.IO) {
             val response = service.getAllPrices()
 
@@ -51,7 +59,6 @@ class MainActivity : AppCompatActivity() {
                 oldData= response.body()!!.mData[1]
                 //pricesList=response.body()!!.mData.prices
                 withContext(Dispatchers.Main){
-                    //runAgain=!response.isSuccessful
                     setupRecyclerView()
                 }
             }
