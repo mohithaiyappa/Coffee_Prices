@@ -1,7 +1,7 @@
 package tk.mohithaiyappa.coffeeprices.di
 
 import dagger.Component
-import tk.mohithaiyappa.coffeeprices.MainActivity
+import tk.mohithaiyappa.coffeeprices.activity.MainActivity
 import tk.mohithaiyappa.coffeeprices.di.modules.ApiModule
 import tk.mohithaiyappa.coffeeprices.di.modules.ContextModule
 import tk.mohithaiyappa.coffeeprices.di.modules.DatabaseModule

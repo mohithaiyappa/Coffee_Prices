@@ -1,5 +1,6 @@
 package tk.mohithaiyappa.coffeeprices.repository
 
+import io.reactivex.Observable
 import retrofit2.Response
 import retrofit2.http.GET
 
@@ -9,5 +10,5 @@ interface CoffeePricesApi{
     suspend fun getLatestPrice():Response<CoffeePricesData>
 
     @GET("prices")
-    suspend fun getAllPrices():Response<CoffeePricesDataList>
+    fun getAllPrices():Observable<CoffeePricesDataList>
 }
