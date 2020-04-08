@@ -1,6 +1,7 @@
 package tk.mohithaiyappa.coffeeprices.activity
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -40,12 +41,16 @@ class MainActivity : AppCompatActivity() {
         val disposable = service.getAllPrices()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
+            .subscribe ({
                 newData = it.mData[0]
                 oldData = it.mData[1]
                 setupRecyclerView()
                 adapter.notifyDataSetChanged()
-            }
+            }, {
+                Log.e(
+                    "jhgjh","error",it
+                )
+            })
         compositeDisposable?.add(disposable)
     }
 

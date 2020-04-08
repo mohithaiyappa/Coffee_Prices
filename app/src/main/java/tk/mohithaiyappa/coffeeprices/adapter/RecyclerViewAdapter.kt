@@ -16,10 +16,6 @@ class RecyclerViewAdapter(private val  newData : CoffeePricesDataList.Data,
                           private val oldData : CoffeePricesDataList.Data,
                           val context:Context): RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>() {
 
-    init {
-        Toast.makeText(context,"starting adapter",Toast.LENGTH_SHORT).show()
-    }
-
 
     inner class ViewHolder(view:View): RecyclerView.ViewHolder(view) {
         private  var tv_spice_name: TextView
