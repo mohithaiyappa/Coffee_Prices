@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
@@ -20,17 +21,23 @@ class RecyclerViewAdapter(private val  newData : CoffeePricesDataList.Data,
     inner class ViewHolder(view:View): RecyclerView.ViewHolder(view) {
         private  var tv_spice_name: TextView
         private  var tv_spice_price: TextView
+        private var rv_image_view: ImageView
         init {
             tv_spice_name = view.findViewById(R.id.tv_spice_name)as TextView
             tv_spice_price = view.findViewById(R.id.tv_price)as TextView
+            rv_image_view = view.findViewById(R.id.rv_image_view)as ImageView
         }
         fun setup(position: Int){
             tv_spice_name.text=newData.prices[position].spiceName
             tv_spice_price.text=newData.prices[position].spiceCost
             val newPrice:Int =convert(newData.prices[position].spiceCost.trim())
             val oldPrice:Int =convert(oldData.prices[position].spiceCost.trim())
-            if (newPrice>=oldPrice)tv_spice_price.setTextColor(Color.GREEN)
-            else tv_spice_price.setTextColor(Color.RED)
+            if (newPrice>=oldPrice){
+                rv_image_view.setImageResource(R.drawable.ic_polygon_up)
+            }
+            else {
+                rv_image_view.setImageResource(R.drawable.ic_polygon_down)
+            }
         }
         fun convert(string:String):Int{
             var newString = string.substringAfter(' ')

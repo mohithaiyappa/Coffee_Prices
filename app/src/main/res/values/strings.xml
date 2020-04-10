@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">Coffee Prices</string>
+    <string name="splash_screen_image">Splash screen image</string>
+    <string name="recycler_view_image_view">recycler view image view</string>
+    <string name="prices">Prices</string>
 </resources>

@@ -19,7 +19,7 @@ class SplashScreenActivity : AppCompatActivity() {
 
         Toast.makeText(this,"in splash activity", Toast.LENGTH_SHORT).show()
 
-        disposable = Observable.timer(5, TimeUnit.SECONDS)
+        disposable = Observable.timer(3, TimeUnit.SECONDS)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
                 val intent = Intent(this, MainActivity::class.java)

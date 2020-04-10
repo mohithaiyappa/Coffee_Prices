@@ -2,6 +2,7 @@ package tk.mohithaiyappa.coffeeprices.activity
 
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -60,6 +61,8 @@ class MainActivity : AppCompatActivity() {
         recycler_view.setHasFixedSize(true)
         adapter = RecyclerViewAdapter(newData, oldData, this)
         recycler_view.adapter = adapter
+        recycler_view.visibility= View.VISIBLE
+        progress_bar.visibility=View.GONE
     }
 
     override fun onDestroy() {
