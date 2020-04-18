@@ -2,8 +2,8 @@ package tk.mohithaiyappa.coffeeprices.activity
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.gms.ads.MobileAds
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -16,8 +16,6 @@ class SplashScreenActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash_screen)
-
-        Toast.makeText(this,"in splash activity", Toast.LENGTH_SHORT).show()
 
         disposable = Observable.timer(3, TimeUnit.SECONDS)
             .observeOn(AndroidSchedulers.mainThread())

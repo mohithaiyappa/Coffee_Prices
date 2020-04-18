@@ -11,7 +11,6 @@ class ApiModule {
     @Provides
     @Named("baseUrl")
     @ApplicationScope
-    fun provideBaseUrl(): String {
-        return "https://coffeemarketprice.herokuapp.com/"
-    }
+    fun provideBaseUrl()= "https://coffeemarketprice.herokuapp.com/"
+
 }
