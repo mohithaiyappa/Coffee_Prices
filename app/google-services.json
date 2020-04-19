@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "811352363604",
+    "firebase_url": "https://coffee-prices.firebaseio.com",
+    "project_id": "coffee-prices",
+    "storage_bucket": "coffee-prices.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:811352363604:android:dbd72d741b4350ad4193c1",
+        "android_client_info": {
+          "package_name": "tk.mohithaiyappa.coffeeprices"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "811352363604-mt7qivjdug86urdties4k5slpq504653.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "tk.mohithaiyappa.coffeeprices",
+            "certificate_hash": "43917358bf9bc98697120339751edcaeeda77d0e"
+          }
+        },
+        {
+          "client_id": "811352363604-s0ibqjn8frri5k5tf4juvfo24mvd08qa.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDftRIuDXeu9MLa_ETmdAd52LeXjeikmkM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "811352363604-s0ibqjn8frri5k5tf4juvfo24mvd08qa.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
