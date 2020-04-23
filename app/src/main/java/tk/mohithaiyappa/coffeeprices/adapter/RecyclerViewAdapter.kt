@@ -25,12 +25,23 @@ class RecyclerViewAdapter(
         fun setup(position: Int) {
             tv_spice_name.text = newData.prices[position].spiceName
             tv_spice_price.text = newData.prices[position].spiceCost
+            rv_image_view.setImageResource(getRightResource(position))
+
+        }
+
+        private fun getRightResource(position: Int): Int {
             val newPrice: Int = convert(newData.prices[position].spiceCost.trim())
             val oldPrice: Int = convert(oldData.prices[position].spiceCost.trim())
-            if (newPrice >= oldPrice) {
-                rv_image_view.setImageResource(R.drawable.ic_polygon_up)
-            } else {
-                rv_image_view.setImageResource(R.drawable.ic_polygon_down)
+            return when {
+                newPrice == oldPrice -> {
+                    R.drawable.ic_unchanged
+                }
+                newPrice > oldPrice -> {
+                    R.drawable.ic_polygon_up
+                }
+                else -> {
+                    R.drawable.ic_polygon_down
+                }
             }
         }
 
@@ -48,7 +59,7 @@ class RecyclerViewAdapter(
         return ViewHolder(view)
     }
 
-    override fun getItemCount()= newData.prices.size
+    override fun getItemCount() = newData.prices.size
 
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {

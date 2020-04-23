@@ -37,8 +37,8 @@ class MainActivity : AppCompatActivity() {
 
         (application as CoffeeApplication).coffeePriceComponent.inject(this)
 
-        setupAdView()
         getData()
+        setupAdView()
 
     }
 
@@ -54,8 +54,9 @@ class MainActivity : AppCompatActivity() {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-                newData = it.mData[0]
-                oldData = it.mData[1]
+                val size = it.mData.lastIndex
+                newData = it.mData[size]
+                oldData = it.mData[size-1]
                 setupRecyclerView()
                 adapter.notifyDataSetChanged()
             }, {
