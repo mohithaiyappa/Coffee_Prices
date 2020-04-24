@@ -19,3 +19,8 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+# UNCOMMENT THIS LATER
+#
+-dontobfuscate # to not change the name of the files
+
