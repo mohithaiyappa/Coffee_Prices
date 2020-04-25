@@ -1,4 +1,4 @@
-package tk.mohithaiyappa.coffeeprices.activity
+package tk.mohithaiyappa.coffeeprices.ui
 
 import android.os.Bundle
 import android.util.Log
@@ -7,16 +7,15 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
-import com.google.android.gms.ads.MobileAds
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
 import tk.mohithaiyappa.coffeeprices.CoffeeApplication
 import tk.mohithaiyappa.coffeeprices.R
-import tk.mohithaiyappa.coffeeprices.adapter.RecyclerViewAdapter
-import tk.mohithaiyappa.coffeeprices.repository.CoffeePricesApi
-import tk.mohithaiyappa.coffeeprices.repository.CoffeePricesDataList
+import tk.mohithaiyappa.coffeeprices.data.adapter.RecyclerViewAdapter
+import tk.mohithaiyappa.coffeeprices.data.network.CoffeePricesApi
+import tk.mohithaiyappa.coffeeprices.data.repository.CoffeePricesDataList
 import javax.inject.Inject
 
 

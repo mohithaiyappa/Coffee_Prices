@@ -5,9 +5,9 @@ import androidx.room.Room
 import dagger.Module
 import dagger.Provides
 import tk.mohithaiyappa.coffeeprices.di.scopes.ApplicationScope
-import tk.mohithaiyappa.coffeeprices.repository.room.DATABASE
-import tk.mohithaiyappa.coffeeprices.repository.room.PricesDao
-import tk.mohithaiyappa.coffeeprices.repository.room.PricesDatabase
+import tk.mohithaiyappa.coffeeprices.data.db.DATABASE
+import tk.mohithaiyappa.coffeeprices.data.db.PricesDao
+import tk.mohithaiyappa.coffeeprices.data.db.PricesDatabase
 
 @Module(includes = [ContextModule::class])
 class DatabaseModule {
@@ -15,7 +15,10 @@ class DatabaseModule {
     @Provides
     @ApplicationScope
     fun provideDatabase(context: Application): PricesDatabase {
-        return Room.databaseBuilder(context,PricesDatabase::class.java, DATABASE).build()
+        return Room.databaseBuilder(context,
+            PricesDatabase::class.java,
+            DATABASE
+        ).build()
     }
 
     @Provides

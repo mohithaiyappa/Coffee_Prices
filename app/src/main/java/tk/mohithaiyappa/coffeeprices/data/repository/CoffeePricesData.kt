@@ -1,4 +1,4 @@
-package tk.mohithaiyappa.coffeeprices.repository
+package tk.mohithaiyappa.coffeeprices.data.repository
 
 
 import com.google.gson.annotations.SerializedName

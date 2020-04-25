@@ -7,7 +7,7 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import tk.mohithaiyappa.coffeeprices.di.scopes.ApplicationScope
-import tk.mohithaiyappa.coffeeprices.repository.CoffeePricesApi
+import tk.mohithaiyappa.coffeeprices.data.network.CoffeePricesApi
 import java.util.concurrent.TimeUnit
 import javax.inject.Named
 
