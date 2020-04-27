@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
+import com.google.android.play.core.appupdate.AppUpdateManager
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.install.model.ActivityResult
 import com.google.android.play.core.install.model.AppUpdateType
@@ -34,6 +35,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var adapter: RecyclerViewAdapter
     lateinit var mAdView : AdView
     private var compositeDisposable: CompositeDisposable? = null
+    lateinit var appUpdateManager:AppUpdateManager
 
     @Inject
     lateinit var service: CoffeePricesApi
@@ -84,7 +86,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun checkForUpdate(){
-        val appUpdateManager = AppUpdateManagerFactory.create(this)
+        appUpdateManager = AppUpdateManagerFactory.create(this)
         val appUpdateInfoTask = appUpdateManager.appUpdateInfo
         appUpdateInfoTask.addOnSuccessListener { appUpdateInfo ->
             if (appUpdateInfo.updateAvailability()==UpdateAvailability.UPDATE_AVAILABLE
@@ -103,6 +105,26 @@ class MainActivity : AppCompatActivity() {
                 checkForUpdate()
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        appUpdateManager
+            .appUpdateInfo
+            .addOnSuccessListener { appUpdateInfo ->
+                if (appUpdateInfo.updateAvailability()
+                    == UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS
+                ) {
+                    // If an in-app update is already running, resume the update.
+                    appUpdateManager.startUpdateFlowForResult(
+                        appUpdateInfo,
+                        AppUpdateType.IMMEDIATE,
+                        this,
+                        MY_REQUEST_CODE
+                    );
+                }
+            }
     }
 
     override fun onDestroy() {
