@@ -1,4 +1,4 @@
-package tk.mohithaiyappa.coffeeprices.repository.room
+package tk.mohithaiyappa.coffeeprices.data.db.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

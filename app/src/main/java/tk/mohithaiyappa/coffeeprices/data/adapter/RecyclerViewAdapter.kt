@@ -1,4 +1,4 @@
-package tk.mohithaiyappa.coffeeprices.adapter
+package tk.mohithaiyappa.coffeeprices.data.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -8,7 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import tk.mohithaiyappa.coffeeprices.R
-import tk.mohithaiyappa.coffeeprices.repository.CoffeePricesDataList
+import tk.mohithaiyappa.coffeeprices.data.repository.CoffeePricesDataList
 
 class RecyclerViewAdapter(
     private val newData: CoffeePricesDataList.Data,

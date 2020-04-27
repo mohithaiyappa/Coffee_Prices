@@ -1,24 +1,31 @@
-package tk.mohithaiyappa.coffeeprices.activity
+package tk.mohithaiyappa.coffeeprices.ui
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
-import com.google.android.gms.ads.MobileAds
+import com.google.android.play.core.appupdate.AppUpdateManagerFactory
+import com.google.android.play.core.install.model.ActivityResult
+import com.google.android.play.core.install.model.AppUpdateType
+import com.google.android.play.core.install.model.UpdateAvailability
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
 import tk.mohithaiyappa.coffeeprices.CoffeeApplication
 import tk.mohithaiyappa.coffeeprices.R
-import tk.mohithaiyappa.coffeeprices.adapter.RecyclerViewAdapter
-import tk.mohithaiyappa.coffeeprices.repository.CoffeePricesApi
-import tk.mohithaiyappa.coffeeprices.repository.CoffeePricesDataList
+import tk.mohithaiyappa.coffeeprices.data.adapter.RecyclerViewAdapter
+import tk.mohithaiyappa.coffeeprices.data.network.CoffeePricesApi
+import tk.mohithaiyappa.coffeeprices.data.repository.CoffeePricesDataList
 import javax.inject.Inject
 
+private const val MY_REQUEST_CODE = 22
 
 class MainActivity : AppCompatActivity() {
 
@@ -37,9 +44,9 @@ class MainActivity : AppCompatActivity() {
 
         (application as CoffeeApplication).coffeePriceComponent.inject(this)
 
+        checkForUpdate()
         getData()
         setupAdView()
-
     }
 
     private fun setupAdView() {
@@ -74,6 +81,28 @@ class MainActivity : AppCompatActivity() {
         recycler_view.adapter = adapter
         recycler_view.visibility = View.VISIBLE
         progress_bar.visibility = View.GONE
+    }
+
+    private fun checkForUpdate(){
+        val appUpdateManager = AppUpdateManagerFactory.create(this)
+        val appUpdateInfoTask = appUpdateManager.appUpdateInfo
+        appUpdateInfoTask.addOnSuccessListener { appUpdateInfo ->
+            if (appUpdateInfo.updateAvailability()==UpdateAvailability.UPDATE_AVAILABLE
+                && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)){
+                //request update
+                appUpdateManager.startUpdateFlowForResult(appUpdateInfo,AppUpdateType.IMMEDIATE,this,MY_REQUEST_CODE)
+            }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == MY_REQUEST_CODE) {
+            if (resultCode != RESULT_OK) {
+                Toast.makeText(this,"Update flow failed! Result code: $resultCode",Toast.LENGTH_SHORT).show()
+                checkForUpdate()
+            }
+        }
     }
 
     override fun onDestroy() {
