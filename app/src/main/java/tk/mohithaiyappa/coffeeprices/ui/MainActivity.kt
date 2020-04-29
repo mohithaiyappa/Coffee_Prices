@@ -1,6 +1,5 @@
 package tk.mohithaiyappa.coffeeprices.ui
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -12,7 +11,6 @@ import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import com.google.android.play.core.appupdate.AppUpdateManager
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
-import com.google.android.play.core.install.model.ActivityResult
 import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.UpdateAvailability
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -46,13 +44,12 @@ class MainActivity : AppCompatActivity() {
 
         (application as CoffeeApplication).coffeePriceComponent.inject(this)
 
-        checkForUpdate()
+        checkForUpdates()
         getData()
         setupAdView()
     }
 
     private fun setupAdView() {
-
         mAdView = findViewById(R.id.adView)
         val adRequest = AdRequest.Builder().build()
         mAdView.loadAd(adRequest)
@@ -85,14 +82,30 @@ class MainActivity : AppCompatActivity() {
         progress_bar.visibility = View.GONE
     }
 
-    private fun checkForUpdate(){
-        appUpdateManager = AppUpdateManagerFactory.create(this)
-        val appUpdateInfoTask = appUpdateManager.appUpdateInfo
-        appUpdateInfoTask.addOnSuccessListener { appUpdateInfo ->
-            if (appUpdateInfo.updateAvailability()==UpdateAvailability.UPDATE_AVAILABLE
-                && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)){
-                //request update
-                appUpdateManager.startUpdateFlowForResult(appUpdateInfo,AppUpdateType.IMMEDIATE,this,MY_REQUEST_CODE)
+    private fun checkForUpdates(){
+        appUpdateManager =  AppUpdateManagerFactory.create(this)
+        appUpdateManager.appUpdateInfo.addOnCompleteListener {
+            if (it.isSuccessful) {
+                val appUpdateInfo = it.result
+
+                // Checks that the platform will allow the specified type of update.
+                if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
+                    // For a flexible update, use AppUpdateType.FLEXIBLE
+                    && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) {
+                    // Request the update.
+
+                    // Start an update.
+                    appUpdateManager.startUpdateFlowForResult(
+                        // Pass the intent that is returned by 'getAppUpdateInfo()'.
+                        appUpdateInfo,
+                        // Or 'AppUpdateType.FLEXIBLE' for flexible updates.
+                        AppUpdateType.IMMEDIATE,
+                        // The current activity making the update request.
+                        this,
+                        // Include a request code to later monitor this update request.
+                        MY_REQUEST_CODE
+                    )
+                }
             }
         }
     }
@@ -102,33 +115,15 @@ class MainActivity : AppCompatActivity() {
         if (requestCode == MY_REQUEST_CODE) {
             if (resultCode != RESULT_OK) {
                 Toast.makeText(this,"Update flow failed! Result code: $resultCode",Toast.LENGTH_SHORT).show()
-                checkForUpdate()
+                checkForUpdates()
             }
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-
-        appUpdateManager
-            .appUpdateInfo
-            .addOnSuccessListener { appUpdateInfo ->
-                if (appUpdateInfo.updateAvailability()
-                    == UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS
-                ) {
-                    // If an in-app update is already running, resume the update.
-                    appUpdateManager.startUpdateFlowForResult(
-                        appUpdateInfo,
-                        AppUpdateType.IMMEDIATE,
-                        this,
-                        MY_REQUEST_CODE
-                    );
-                }
-            }
     }
 
     override fun onDestroy() {
         super.onDestroy()
         compositeDisposable?.dispose()
     }
+
+
 }
