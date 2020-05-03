@@ -58,10 +58,6 @@ class MainActivity : AppCompatActivity() {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-//                val size = it.mData.lastIndex
-//                newData = it.mData[size]
-//                oldData = it.mData[size-1]
-
                 setupRecyclerView(it.mData)
                 adapter.notifyDataSetChanged()
             }, {
