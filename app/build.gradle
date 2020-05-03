@@ -19,8 +19,8 @@ android {
         applicationId "tk.mohithaiyappa.coffeeprices"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 17
-        versionName "1.4.12" //last updated on Wednesday the 29th of april 2020 at 9:41
+        versionCode 18
+        versionName "1.5" //last updated on Wednesday the 29th of april 2020 at 9:41
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -36,8 +36,6 @@ android {
 }
 
 dependencies {
-    //def
-    def room_version = "2.2.5"
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
