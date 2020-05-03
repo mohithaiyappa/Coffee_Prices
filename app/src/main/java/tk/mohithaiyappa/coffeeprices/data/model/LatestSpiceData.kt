@@ -2,6 +2,7 @@ package tk.mohithaiyappa.coffeeprices.data.model
 
 
 import com.google.gson.annotations.SerializedName
+import java.util.*
 
 data class LatestSpiceData(
     @SerializedName("data")
@@ -15,7 +16,7 @@ data class LatestSpiceData(
         @SerializedName("_id")
         var id: String = "",
         @SerializedName("scrappedAt")
-        var scrappedAt: String = "",
+        var scrappedAt: Date? = null,
         @SerializedName("spiceCost")
         var spiceCost: String = "",
         @SerializedName("spiceName")
@@ -23,6 +24,8 @@ data class LatestSpiceData(
         @SerializedName("status")
         var status: Int = 0,
         @SerializedName("__v")
-        var v: Int = 0
+        var v: Int = 0,
+        @SerializedName("priority")
+        var priority :Int =-1
     )
 }

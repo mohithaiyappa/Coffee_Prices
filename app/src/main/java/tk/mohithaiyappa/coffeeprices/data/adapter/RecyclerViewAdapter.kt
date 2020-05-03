@@ -6,15 +6,32 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import tk.mohithaiyappa.coffeeprices.R
 import tk.mohithaiyappa.coffeeprices.data.model.LatestSpiceData
 
-class RecyclerViewAdapter(
-    val dataList: List<LatestSpiceData.Data>,
-    val context: Context
-) : RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>() {
+class RecyclerViewAdapter() : ListAdapter<LatestSpiceData.Data, RecyclerViewAdapter.ViewHolder>(diff) {
 
+    companion object {
+        val diff = object : DiffUtil.ItemCallback<LatestSpiceData.Data>() {
+            override fun areItemsTheSame(
+                oldItem: LatestSpiceData.Data,
+                newItem: LatestSpiceData.Data
+            ): Boolean {
+                return oldItem == newItem
+            }
+
+            override fun areContentsTheSame(
+                oldItem: LatestSpiceData.Data,
+                newItem: LatestSpiceData.Data
+            ): Boolean {
+                return oldItem == newItem
+            }
+
+        }
+    }
 
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -23,9 +40,9 @@ class RecyclerViewAdapter(
         private var rv_image_view: ImageView = view.findViewById(R.id.rv_image_view) as ImageView
 
         fun setup(position: Int) {
-            tv_spice_name.text = dataList[position].spiceName
-            tv_spice_price.text = dataList[position].spiceCost
-            rv_image_view.setImageResource(getRightResource(dataList[position].status))
+            tv_spice_name.text = getItem(position).spiceName
+            tv_spice_price.text = getItem(position).spiceCost
+            rv_image_view.setImageResource(getRightResource(getItem(position).status))
 
         }
 
@@ -44,8 +61,6 @@ class RecyclerViewAdapter(
             .inflate(R.layout.rv_coffee_prices_view, parent, false)
         return ViewHolder(view)
     }
-
-    override fun getItemCount()=dataList.size
 
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {

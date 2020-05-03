@@ -1,5 +1,7 @@
 package tk.mohithaiyappa.coffeeprices.di.modules
 
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -31,8 +33,8 @@ class NetworkModule {
 
     @Provides
     @ApplicationScope
-    fun providesGsonConverter(): GsonConverterFactory {
-        return GsonConverterFactory.create()
+    fun providesGsonConverter(gson: Gson): GsonConverterFactory {
+        return GsonConverterFactory.create(gson)
     }
 
     @Provides
@@ -45,5 +47,18 @@ class NetworkModule {
     @ApplicationScope
     fun providesOkHttpClient(): OkHttpClient {
         return OkHttpClient.Builder().readTimeout(60, TimeUnit.SECONDS).build()
+    }
+
+    /**
+     * Configures the reusable GSON singleton instance.
+     */
+    @ApplicationScope
+    @Provides
+    fun gson(): Gson {
+
+        val gsonBuilder = GsonBuilder()
+        // set the server followed date format
+        gsonBuilder.setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ")
+        return gsonBuilder.create()
     }
 }

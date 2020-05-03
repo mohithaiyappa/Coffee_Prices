@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
@@ -22,6 +23,8 @@ import tk.mohithaiyappa.coffeeprices.R
 import tk.mohithaiyappa.coffeeprices.data.adapter.RecyclerViewAdapter
 import tk.mohithaiyappa.coffeeprices.data.model.LatestSpiceData
 import tk.mohithaiyappa.coffeeprices.data.network.CoffeePricesApi
+import java.lang.Exception
+import java.text.SimpleDateFormat
 import javax.inject.Inject
 
 private const val MY_REQUEST_CODE = 22
@@ -32,6 +35,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var mAdView : AdView
     private var compositeDisposable: CompositeDisposable? = null
     lateinit var appUpdateManager:AppUpdateManager
+    val format = SimpleDateFormat("dd MMM yyyy hh:mm a")
 
     @Inject
     lateinit var service: CoffeePricesApi
@@ -39,8 +43,14 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        progress_bar.visibility=View.VISIBLE
 
         (application as CoffeeApplication).coffeePriceComponent.inject(this)
+
+        recycler_view.layoutManager = LinearLayoutManager(this)
+        recycler_view.setHasFixedSize(true)
+        adapter = RecyclerViewAdapter()
+        recycler_view.adapter = adapter
 
         checkForUpdates()
         getData()
@@ -57,9 +67,26 @@ class MainActivity : AppCompatActivity() {
         val disposable = service.getLatestPrice()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
+            .doOnSubscribe {
+                progress_bar.visibility= View.VISIBLE
+            }
+            .doOnComplete {
+                progress_bar.visibility= View.GONE
+                recycler_view.visibility= View.VISIBLE
+            }
+            .doOnError {
+                progress_bar.visibility= View.GONE
+            }
             .subscribe({
-                setupRecyclerView(it.mData)
-                adapter.notifyDataSetChanged()
+                adapter.submitList(it.mData.sortedBy { it.priority })
+                try {
+                    it.mData.getOrNull(0)?.scrappedAt?.let { date ->
+                        tvDate.text="Last Updated : ${format.format(date)}"
+                    }
+                }catch (e: Exception){
+                    Log.e("date exception",e.toString())
+                }
+
             }, {
                 Log.e(
                     "jhgjh", "error", it
@@ -68,14 +95,11 @@ class MainActivity : AppCompatActivity() {
         compositeDisposable?.add(disposable)
     }
 
-    private fun setupRecyclerView(mData: List<LatestSpiceData.Data>) {
-        recycler_view.layoutManager = LinearLayoutManager(this)
-        recycler_view.setHasFixedSize(true)
-        adapter = RecyclerViewAdapter(mData, this)
-        recycler_view.adapter = adapter
-        recycler_view.visibility = View.VISIBLE
-        progress_bar.visibility = View.GONE
-    }
+//    private fun setupRecyclerView(mData: List<LatestSpiceData.Data>) {
+//       adapter.submitList(mData)
+//        recycler_view.visibility = View.VISIBLE
+//        progress_bar.visibility = View.GONE
+//    }
 
     private fun checkForUpdates(){
         appUpdateManager =  AppUpdateManagerFactory.create(this)
@@ -115,13 +139,19 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        if (recycler_view.visibility==View.VISIBLE){
+            progress_bar.visibility=View.GONE
+        }
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         compositeDisposable?.dispose()
     }
 
-
-
-
-
+    override fun onBackPressed() {
+        finish()
+    }
 }
