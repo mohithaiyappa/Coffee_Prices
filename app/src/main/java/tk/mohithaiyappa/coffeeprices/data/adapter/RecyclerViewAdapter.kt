@@ -8,13 +8,13 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import tk.mohithaiyappa.coffeeprices.R
-import tk.mohithaiyappa.coffeeprices.data.repository.CoffeePricesDataList
+import tk.mohithaiyappa.coffeeprices.data.model.LatestSpiceData
 
 class RecyclerViewAdapter(
-    private val newData: CoffeePricesDataList.Data,
-    private val oldData: CoffeePricesDataList.Data,
+    val dataList: List<LatestSpiceData.Data>,
     val context: Context
 ) : RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>() {
+
 
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -23,34 +23,20 @@ class RecyclerViewAdapter(
         private var rv_image_view: ImageView = view.findViewById(R.id.rv_image_view) as ImageView
 
         fun setup(position: Int) {
-            tv_spice_name.text = newData.prices[position].spiceName
-            tv_spice_price.text = newData.prices[position].spiceCost
-            rv_image_view.setImageResource(getRightResource(position))
+            tv_spice_name.text = dataList[position].spiceName
+            tv_spice_price.text = dataList[position].spiceCost
+            rv_image_view.setImageResource(getRightResource(dataList[position].status))
 
         }
 
-        private fun getRightResource(position: Int): Int {
-            val newPrice: Int = convert(newData.prices[position].spiceCost.trim())
-            val oldPrice: Int = convert(oldData.prices[position].spiceCost.trim())
-            return when {
-                newPrice == oldPrice -> {
-                    R.drawable.ic_unchanged
-                }
-                newPrice > oldPrice -> {
-                    R.drawable.ic_polygon_up
-                }
-                else -> {
-                    R.drawable.ic_polygon_down
-                }
+        private fun getRightResource(value: Int): Int {
+            return when (value) {
+                 1 ->   R.drawable.ic_polygon_up
+                -1 ->   R.drawable.ic_polygon_down
+                else -> R.drawable.ic_unchanged
             }
         }
 
-        private fun convert(string: String): Int {
-            var newString = string.substringAfter(' ')
-            newString = newString.substringBefore(' ')
-            return newString.toInt()
-
-        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -59,7 +45,7 @@ class RecyclerViewAdapter(
         return ViewHolder(view)
     }
 
-    override fun getItemCount() = newData.prices.size
+    override fun getItemCount()=dataList.size
 
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {

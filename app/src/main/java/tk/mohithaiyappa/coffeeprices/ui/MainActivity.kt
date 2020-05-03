@@ -20,16 +20,14 @@ import kotlinx.android.synthetic.main.activity_main.*
 import tk.mohithaiyappa.coffeeprices.CoffeeApplication
 import tk.mohithaiyappa.coffeeprices.R
 import tk.mohithaiyappa.coffeeprices.data.adapter.RecyclerViewAdapter
+import tk.mohithaiyappa.coffeeprices.data.model.LatestSpiceData
 import tk.mohithaiyappa.coffeeprices.data.network.CoffeePricesApi
-import tk.mohithaiyappa.coffeeprices.data.repository.CoffeePricesDataList
 import javax.inject.Inject
 
 private const val MY_REQUEST_CODE = 22
 
-class MainActivity : AppCompatActivity() {
 
-    private lateinit var newData: CoffeePricesDataList.Data
-    private lateinit var oldData: CoffeePricesDataList.Data
+class MainActivity : AppCompatActivity() {
     lateinit var adapter: RecyclerViewAdapter
     lateinit var mAdView : AdView
     private var compositeDisposable: CompositeDisposable? = null
@@ -56,14 +54,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getData() {
-        val disposable = service.getAllPrices()
+        val disposable = service.getLatestPrice()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-                val size = it.mData.lastIndex
-                newData = it.mData[size]
-                oldData = it.mData[size-1]
-                setupRecyclerView()
+//                val size = it.mData.lastIndex
+//                newData = it.mData[size]
+//                oldData = it.mData[size-1]
+
+                setupRecyclerView(it.mData)
                 adapter.notifyDataSetChanged()
             }, {
                 Log.e(
@@ -73,10 +72,10 @@ class MainActivity : AppCompatActivity() {
         compositeDisposable?.add(disposable)
     }
 
-    private fun setupRecyclerView() {
+    private fun setupRecyclerView(mData: List<LatestSpiceData.Data>) {
         recycler_view.layoutManager = LinearLayoutManager(this)
         recycler_view.setHasFixedSize(true)
-        adapter = RecyclerViewAdapter(newData, oldData, this)
+        adapter = RecyclerViewAdapter(mData, this)
         recycler_view.adapter = adapter
         recycler_view.visibility = View.VISIBLE
         progress_bar.visibility = View.GONE
@@ -124,6 +123,9 @@ class MainActivity : AppCompatActivity() {
         super.onDestroy()
         compositeDisposable?.dispose()
     }
+
+
+
 
 
 }
