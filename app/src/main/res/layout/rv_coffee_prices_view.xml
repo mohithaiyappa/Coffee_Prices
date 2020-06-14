@@ -10,6 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_weight="1"
+        android:text="spice name"
         android:layout_gravity="center_horizontal|start"
         android:gravity="center"
         android:textColor="@color/colorAccent" />
@@ -26,6 +27,7 @@
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_weight="1"
+        android:text="spice price"
         android:layout_gravity="center_horizontal|end"
         android:gravity="center"
         android:textColor="@color/colorAccent" />
