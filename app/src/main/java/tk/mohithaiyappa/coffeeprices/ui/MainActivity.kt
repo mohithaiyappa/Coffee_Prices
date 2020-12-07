@@ -6,9 +6,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import com.google.android.play.core.appupdate.AppUpdateManager
@@ -22,9 +20,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import tk.mohithaiyappa.coffeeprices.CoffeeApplication
 import tk.mohithaiyappa.coffeeprices.R
 import tk.mohithaiyappa.coffeeprices.data.adapter.RecyclerViewAdapter
-import tk.mohithaiyappa.coffeeprices.data.model.LatestSpiceData
 import tk.mohithaiyappa.coffeeprices.data.network.CoffeePricesApi
-import java.lang.Exception
 import java.text.SimpleDateFormat
 import javax.inject.Inject
 
@@ -34,6 +30,7 @@ private const val MY_REQUEST_CODE = 22
 class MainActivity : AppCompatActivity() {
     lateinit var adapter: RecyclerViewAdapter
     lateinit var mAdView : AdView
+    lateinit var gridLayoutManager: GridLayoutManager
     private var compositeDisposable: CompositeDisposable? = null
     lateinit var appUpdateManager:AppUpdateManager
     val format = SimpleDateFormat("dd MMM yyyy hh:mm a")
@@ -48,7 +45,14 @@ class MainActivity : AppCompatActivity() {
 
         (application as CoffeeApplication).coffeePriceComponent.inject(this)
 
-        recycler_view.layoutManager = GridLayoutManager(this,2)
+        //recycler_view.layoutManager = GridLayoutManager(this,2)
+        gridLayoutManager = GridLayoutManager(this, 2)
+        gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+            override fun getSpanSize(position: Int): Int {
+                return if (position == adapter.itemCount-1) 2 else 1
+            }
+        }
+        recycler_view.layoutManager = gridLayoutManager
         recycler_view.setHasFixedSize(true)
         adapter = RecyclerViewAdapter()
         recycler_view.adapter = adapter
