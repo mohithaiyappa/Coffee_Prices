@@ -26,6 +26,17 @@ data class LatestSpiceData(
         @SerializedName("__v")
         var v: Int = 0,
         @SerializedName("priority")
-        var priority :Int =-1
-    )
+        var priority :Int =-1,
+        @SerializedName("graphData")
+        var graphData: List<Data.GraphData> = listOf()
+    ){
+        data class GraphData(
+            @SerializedName("_id")
+            var id: String = "",
+            @SerializedName("average")
+            var average: Int=0,
+            @SerializedName("scrappedAt")
+            var scrappedAt: Date? = null
+        )
+    }
 }
