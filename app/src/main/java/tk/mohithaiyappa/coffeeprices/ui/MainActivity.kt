@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
@@ -47,7 +48,7 @@ class MainActivity : AppCompatActivity() {
 
         (application as CoffeeApplication).coffeePriceComponent.inject(this)
 
-        recycler_view.layoutManager = LinearLayoutManager(this)
+        recycler_view.layoutManager = GridLayoutManager(this,2)
         recycler_view.setHasFixedSize(true)
         adapter = RecyclerViewAdapter()
         recycler_view.adapter = adapter
