@@ -47,7 +47,7 @@ class BarGraph @JvmOverloads constructor(
         barWidth = fullBarWidth / priceList.size
         barGap = fullBarGap / (priceList.size - 1)
 
-        barHeight = height.toFloat()
+        barHeight = (height.toFloat() / 2)
         lowPoint = barHeight * 0.2f
 
         calculateHiAndLow()
@@ -58,7 +58,7 @@ class BarGraph @JvmOverloads constructor(
             rect.left = barWidth * i + barGap * i
             rect.top = barHeight - (barHeight * getCurrentHeight(priceList[i]) * 0.01f)
             rect.right = barWidth + rect.left
-            rect.bottom = hiPoint + barHeight
+            rect.bottom = hiPoint + barHeight + barHeight
 
             canvas?.drawRoundRect(rect, radius, radius, paint)
         }
