@@ -12,7 +12,7 @@ data class LatestSpiceData(
 ) {
     data class Data(
         @SerializedName("average")
-        var average: Int = 0,
+        var average: Double = 0.0,
         @SerializedName("_id")
         var id: String = "",
         @SerializedName("scrappedAt")
@@ -26,7 +26,7 @@ data class LatestSpiceData(
         @SerializedName("__v")
         var v: Int = 0,
         @SerializedName("priority")
-        var priority :Int =-1,
+        var priority: Int = -1,
         @SerializedName("graphData")
         var graphData: List<Data.GraphData> = listOf()
     ){
@@ -34,7 +34,7 @@ data class LatestSpiceData(
             @SerializedName("_id")
             var id: String = "",
             @SerializedName("average")
-            var average: Int=0,
+            var average: Double = 0.0,
             @SerializedName("scrappedAt")
             var scrappedAt: Date? = null
         )

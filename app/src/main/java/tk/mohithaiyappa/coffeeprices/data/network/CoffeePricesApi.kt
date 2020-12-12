@@ -6,6 +6,6 @@ import tk.mohithaiyappa.coffeeprices.data.model.LatestSpiceData
 
 
 interface CoffeePricesApi{
-    @GET("prices/latest")
+    @GET("prices/v2/latest")
     fun getLatestPrice():Observable<LatestSpiceData>
 }
