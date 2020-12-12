@@ -32,6 +32,8 @@ class BarGraph @JvmOverloads constructor(
     private var hiLowDiff: Float = 0f
     private var currentValue: Float = 0f
 
+    private var radius: Float = 7f
+
     private var priceList: List<Float> = listOf()
 
 
@@ -58,7 +60,7 @@ class BarGraph @JvmOverloads constructor(
             rect.right = barWidth + rect.left
             rect.bottom = hiPoint + barHeight
 
-            canvas?.drawRoundRect(rect, 0f, 0f, paint)
+            canvas?.drawRoundRect(rect, radius, radius, paint)
         }
     }
 
@@ -92,6 +94,10 @@ class BarGraph @JvmOverloads constructor(
     fun setBarColor(color: Int) {
         paintColor = color
         invalidate()
+    }
+
+    fun setRadius(rad: Float) {
+        radius = rad
     }
 
     fun submitData(prices: List<Float>) {
