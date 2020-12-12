@@ -71,6 +71,17 @@ class MainActivity : AppCompatActivity() {
     private fun getData() {
         val disposable = service.getLatestPrice()
             .subscribeOn(Schedulers.io())
+            .map { spiceData ->
+                spiceData.mData.forEach { data ->
+                    val list: ArrayList<Float> = ArrayList()
+                    data.graphData.forEach { graphData ->
+                        list.add(graphData.average.toFloat())
+                    }
+                    data.graphPricesList = list
+
+                }
+                spiceData
+            }
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe {
                 progress_bar.visibility= View.VISIBLE

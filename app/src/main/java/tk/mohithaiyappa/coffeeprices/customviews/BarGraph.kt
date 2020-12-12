@@ -32,11 +32,13 @@ class BarGraph @JvmOverloads constructor(
     private var hiLowDiff: Float = 0f
     private var currentValue: Float = 0f
 
-    private var priceList: List<Float> = listOf(3442f, 3442f, 3442f, 3442f, 3442f, 3600f, 3800f)
+    private var priceList: List<Float> = listOf()
 
 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
+
+        if (priceList.isNullOrEmpty()) return
 
         fullBarWidth = (width * 0.667).toFloat()
         fullBarGap = (width * 0.333).toFloat()
