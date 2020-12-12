@@ -28,7 +28,9 @@ data class LatestSpiceData(
         @SerializedName("priority")
         var priority: Int = -1,
         @SerializedName("graphData")
-        var graphData: List<Data.GraphData> = listOf()
+        var graphData: List<Data.GraphData> = listOf(),
+        @Transient
+        var graphPricesList: List<Float> = listOf()
     ){
         data class GraphData(
             @SerializedName("_id")
