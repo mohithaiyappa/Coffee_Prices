@@ -111,12 +111,6 @@ class MainActivity : AppCompatActivity() {
         compositeDisposable?.add(disposable)
     }
 
-//    private fun setupRecyclerView(mData: List<LatestSpiceData.Data>) {
-//       adapter.submitList(mData)
-//        recycler_view.visibility = View.VISIBLE
-//        progress_bar.visibility = View.GONE
-//    }
-
     private fun checkForUpdates(){
         appUpdateManager =  AppUpdateManagerFactory.create(this)
         appUpdateManager.appUpdateInfo.addOnCompleteListener {
