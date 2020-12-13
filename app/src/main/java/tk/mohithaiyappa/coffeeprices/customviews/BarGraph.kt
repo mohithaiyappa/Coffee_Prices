@@ -98,6 +98,7 @@ class BarGraph @JvmOverloads constructor(
 
     fun setRadius(rad: Float) {
         radius = rad
+        invalidate()
     }
 
     fun submitData(prices: List<Float>) {
