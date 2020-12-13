@@ -1,6 +1,5 @@
 package tk.mohithaiyappa.coffeeprices.ui
 
-import android.app.ActivityOptions
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -52,6 +51,5 @@ class SplashScreenActivity : AppCompatActivity() {
     override fun onDestroy() {
         disposable.dispose()
         super.onDestroy()
-
     }
 }
