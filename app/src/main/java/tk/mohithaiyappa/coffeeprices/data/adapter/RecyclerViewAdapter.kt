@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -41,6 +42,8 @@ class RecyclerViewAdapter :
         private var tv_spice_price: TextView = view.findViewById(R.id.tv_price) as TextView
         private var rv_image_view: ImageView = view.findViewById(R.id.rv_image_view) as ImageView
         private var barGraph: BarGraph = view.findViewById(R.id.barGraph)
+        private var constraintLayout: ConstraintLayout =
+            view.findViewById(R.id.rvConstraintLayout) as ConstraintLayout
 
         fun setup(position: Int) {
             tv_spice_name.text = getItem(position).spiceName

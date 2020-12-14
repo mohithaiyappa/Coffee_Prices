@@ -21,7 +21,7 @@ class BarGraph @JvmOverloads constructor(
     private var barWidth: Float = 0f
     private var barGap: Float = 0f
 
-    private var paintColor: Int = Color.CYAN
+    private var paintColor: Int = Color.parseColor("#2CABAA")
 
     private var barHeight: Float = 0f
 
