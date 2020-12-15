@@ -64,13 +64,25 @@ class RecyclerViewAdapter :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.rv_coffee_prices_view, parent, false)
+        val view: View = when (viewType) {
+            2 -> {
+                LayoutInflater.from(parent.context)
+                    .inflate(R.layout.rv_coffee_prices_view_no_ar, parent, false)
+            }
+            else -> {
+                LayoutInflater.from(parent.context)
+                    .inflate(R.layout.rv_coffee_prices_view, parent, false)
+            }
+        }
         return ViewHolder(view)
     }
 
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.setup(position)
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return if (position == itemCount - 1 && itemCount % 2 != 0) 2 else 1
     }
 }
