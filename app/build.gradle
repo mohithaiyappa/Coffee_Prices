@@ -10,6 +10,8 @@ apply plugin: 'kotlin-kapt'
 
 apply plugin: 'kotlin-android-extensions'
 
+apply plugin: 'com.onesignal.androidsdk.onesignal-gradle-plugin'
+
 
 
 android {
@@ -87,5 +89,8 @@ dependencies {
 
     //MPAndroidChart
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+
+    //One Signal
+    implementation 'com.onesignal:OneSignal:[4.0.0, 4.99.99]'
 
 }
