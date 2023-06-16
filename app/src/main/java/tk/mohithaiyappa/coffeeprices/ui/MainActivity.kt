@@ -6,51 +6,51 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.AdView
+//import com.google.android.gms.ads.AdRequest
+//import com.google.android.gms.ads.AdView
 import com.google.android.play.core.appupdate.AppUpdateManager
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.UpdateAvailability
+import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.activity_main.*
-import tk.mohithaiyappa.coffeeprices.CoffeeApplication
-import tk.mohithaiyappa.coffeeprices.R
 import tk.mohithaiyappa.coffeeprices.data.adapter.RecyclerViewAdapter
-import tk.mohithaiyappa.coffeeprices.data.model.LatestSpiceData
 import tk.mohithaiyappa.coffeeprices.data.network.CoffeePricesApi
+import tk.mohithaiyappa.coffeeprices.databinding.ActivityMainBinding
 import java.lang.Exception
 import java.text.SimpleDateFormat
 import javax.inject.Inject
 
-private const val MY_REQUEST_CODE = 22
+private const val REQUEST_CODE_APP_UPDATE = 22
 
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
+    lateinit var binding: ActivityMainBinding
     lateinit var adapter: RecyclerViewAdapter
-    lateinit var mAdView : AdView
+//    lateinit var mAdView : AdView
     private var compositeDisposable: CompositeDisposable? = null
     lateinit var appUpdateManager:AppUpdateManager
     val format = SimpleDateFormat("dd MMM yyyy hh:mm a")
 
-    @Inject
-    lateinit var service: CoffeePricesApi
+    @Inject lateinit var service: CoffeePricesApi
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        progress_bar.visibility=View.VISIBLE
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        (application as CoffeeApplication).coffeePriceComponent.inject(this)
+        binding.progressBar.visibility=View.VISIBLE
 
-        recycler_view.layoutManager = LinearLayoutManager(this)
-        recycler_view.setHasFixedSize(true)
+//        (application as CoffeeApplication).coffeePriceComponent.inject(this)
+
+        binding.recyclerView.layoutManager = LinearLayoutManager(this)
+        binding.recyclerView.setHasFixedSize(true)
         adapter = RecyclerViewAdapter()
-        recycler_view.adapter = adapter
+        binding.recyclerView.adapter = adapter
 
         checkForUpdates()
         getData()
@@ -58,9 +58,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupAdView() {
-        mAdView = findViewById(R.id.adView)
-        val adRequest = AdRequest.Builder().build()
-        mAdView.loadAd(adRequest)
+//        mAdView = findViewById(R.id.adView)
+//        val adRequest = AdRequest.Builder().build()
+//        mAdView.loadAd(adRequest)
     }
 
     private fun getData() {
@@ -68,20 +68,20 @@ class MainActivity : AppCompatActivity() {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe {
-                progress_bar.visibility= View.VISIBLE
+                binding.progressBar.visibility= View.VISIBLE
             }
             .doOnComplete {
-                progress_bar.visibility= View.GONE
-                recycler_view.visibility= View.VISIBLE
+                binding.progressBar.visibility= View.GONE
+                binding.recyclerView.visibility= View.VISIBLE
             }
             .doOnError {
-                progress_bar.visibility= View.GONE
+                binding.progressBar.visibility= View.GONE
             }
             .subscribe({
                 adapter.submitList(it.mData.sortedBy { it.priority })
                 try {
                     it.mData.getOrNull(0)?.scrappedAt?.let { date ->
-                        tvDate.text="Last Updated : ${format.format(date)}"
+                        binding.tvDate.text="Last Updated : ${format.format(date)}"
                     }
                 }catch (e: Exception){
                     Log.e("date exception",e.toString())
@@ -122,7 +122,7 @@ class MainActivity : AppCompatActivity() {
                         // The current activity making the update request.
                         this,
                         // Include a request code to later monitor this update request.
-                        MY_REQUEST_CODE
+                        REQUEST_CODE_APP_UPDATE
                     )
                 }
             }
@@ -131,7 +131,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == MY_REQUEST_CODE) {
+        if (requestCode == REQUEST_CODE_APP_UPDATE) {
             if (resultCode != RESULT_OK) {
                 Toast.makeText(this,"Update flow failed! Result code: $resultCode",Toast.LENGTH_SHORT).show()
                 checkForUpdates()
@@ -141,8 +141,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        if (recycler_view.visibility==View.VISIBLE){
-            progress_bar.visibility=View.GONE
+        if (binding.recyclerView.visibility==View.VISIBLE){
+            binding.progressBar.visibility=View.GONE
         }
     }
 

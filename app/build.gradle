@@ -8,17 +8,15 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-kapt'
 
-apply plugin: 'kotlin-android-extensions'
-
+apply plugin: 'com.google.dagger.hilt.android'
 
 
 android {
-    compileSdkVersion 29
-    buildToolsVersion "29.0.2"
+    compileSdkVersion 33
     defaultConfig {
         applicationId "tk.mohithaiyappa.coffeeprices"
-        minSdkVersion 21
-        targetSdkVersion 29
+        minSdkVersion 24
+        targetSdkVersion 33
         versionCode 18
         versionName "1.5" //last updated on Wednesday the 29th of april 2020 at 9:41
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -29,32 +27,38 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-    compileOptions {
-        targetCompatibility = "8"
-        sourceCompatibility = "8"
+    buildFeatures {
+        viewBinding true
     }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+//    compileOptions {
+//        targetCompatibility = "8"
+//        sourceCompatibility = "8"
+//    }
+    namespace 'tk.mohithaiyappa.coffeeprices'
 }
 
 dependencies {
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'androidx.core:core-ktx:1.2.0'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-    testImplementation 'junit:junit:4.13'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'androidx.core:core-ktx:1.10.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
     //play core
-    implementation 'com.google.android.play:core:1.7.2'
+    implementation 'com.google.android.play:core:1.10.3'
 
     //material design
-    implementation 'com.google.android.material:material:1.1.0'
+    implementation 'com.google.android.material:material:1.8.0'
 
     //coroutine
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.3'        //coroutines core
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.3'     //coroutines android
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4'        //coroutines core
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4'     //coroutines android
 
 
 //    //room
@@ -70,19 +74,36 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.7.1'          // Retrofit
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.7.1'   // RxJava adapter
 
+    implementation "com.squareup.okhttp3:okhttp:4.10.0"
+
+
     //Gson converter factory
     implementation 'com.squareup.retrofit2:converter-gson:2.7.1'
 
     //ad mob
-    implementation 'com.google.android.gms:play-services-ads:19.1.0'
+//    implementation 'com.google.android.gms:play-services-ads:19.1.0'
 
     //dagger2
-    implementation "com.google.dagger:dagger:2.27"
-    kapt "com.google.dagger:dagger-compiler:2.27"
+//    implementation "com.google.dagger:dagger:2.28.3"
+//    kapt "com.google.dagger:dagger-compiler:2.27"
+
+    implementation "com.google.dagger:hilt-android:2.44"
+    kapt "com.google.dagger:hilt-android-compiler:2.44"
 
     //firebase
-    implementation 'com.google.firebase:firebase-analytics:17.4.0'              //firebase main
-    implementation 'com.google.firebase:firebase-analytics:17.4.0'              //firebase analytics
-    implementation 'com.google.firebase:firebase-crashlytics:17.0.0'            //firebase crashlytics
+//    implementation 'com.google.firebase:firebase-analytics:17.4.0'              //firebase main
+//    implementation 'com.google.firebase:firebase-analytics:17.4.0'              //firebase analytics
+//    implementation 'com.google.firebase:firebase-crashlytics:17.0.0'            //firebase crashlytics
 
+    // Import the BoM for the Firebase platform
+    implementation platform('com.google.firebase:firebase-bom:32.1.0')
+
+    // Add the dependencies for the Crashlytics and Analytics libraries
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+    implementation 'com.google.firebase:firebase-crashlytics-ktx'
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+}
+
+kapt {
+    correctErrorTypes = true
 }
