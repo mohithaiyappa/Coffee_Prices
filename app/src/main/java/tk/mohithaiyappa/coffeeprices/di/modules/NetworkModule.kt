@@ -33,7 +33,7 @@ class NetworkModule {
             .addConverterFactory(gsonConverterFactory)
             .addCallAdapterFactory(rxJava2CallAdapterFactory)
 //            .client(okHttpClient)
-            .baseUrl("https://cropmarketprices-production.up.railway.app/")
+            .baseUrl("https://odd-pink-caiman-robe.cyclic.app/")
             .build()
             .create(CoffeePricesApi::class.java)
     }
