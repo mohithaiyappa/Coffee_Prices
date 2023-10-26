@@ -18,7 +18,7 @@ android {
         minSdkVersion 24
         targetSdkVersion 33
         versionCode 20
-        versionName "1.7" //last updated on Monday the 4th of sep 2023 at 7:53 pm
+        versionName "1.8" //last updated on Monday the 26 october 2021, 10: 44 PM
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
