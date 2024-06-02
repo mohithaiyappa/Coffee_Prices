@@ -17,8 +17,8 @@ android {
         applicationId "tk.mohithaiyappa.coffeeprices"
         minSdkVersion 24
         targetSdkVersion 33
-        versionCode 21
-        versionName "1.8" //last updated on Monday the 26 october 2021, 10: 44 PM
+        versionCode 23
+        versionName "1.9.1" //last updated on Sunday the 02 june 2024, 08:52 PM
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
