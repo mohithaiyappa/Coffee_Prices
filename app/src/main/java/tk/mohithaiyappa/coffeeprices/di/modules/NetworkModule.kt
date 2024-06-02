@@ -25,15 +25,15 @@ class NetworkModule {
     @Singleton
     fun provideRetrofit(
         gsonConverterFactory: GsonConverterFactory,
-        rxJava2CallAdapterFactory: RxJava2CallAdapterFactory
-//        okHttpClient: OkHttpClient,
-//        @Named("baseUrl") baseUrl: String
+        rxJava2CallAdapterFactory: RxJava2CallAdapterFactory,
+        okHttpClient: OkHttpClient,
+        @Named("baseUrl") baseUrl: String
     ): CoffeePricesApi {
         return Retrofit.Builder()
             .addConverterFactory(gsonConverterFactory)
             .addCallAdapterFactory(rxJava2CallAdapterFactory)
-//            .client(okHttpClient)
-            .baseUrl("https://odd-pink-caiman-robe.cyclic.app/")
+            .client(okHttpClient)
+            .baseUrl(baseUrl)
             .build()
             .create(CoffeePricesApi::class.java)
     }
@@ -50,11 +50,11 @@ class NetworkModule {
         return RxJava2CallAdapterFactory.create()
     }
 
-//    @Provides
-//    @Singleton
-//    fun providesOkHttpClient(): OkHttpClient {
-//        return OkHttpClient.Builder().readTimeout(60, TimeUnit.SECONDS).build()
-//    }
+    @Provides
+    @Singleton
+    fun providesOkHttpClient(): OkHttpClient {
+        return OkHttpClient.Builder().readTimeout(60, TimeUnit.SECONDS).build()
+    }
 
     /**
      * Configures the reusable GSON singleton instance.
