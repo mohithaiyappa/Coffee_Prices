@@ -12,18 +12,18 @@ apply plugin: 'com.google.dagger.hilt.android'
 
 
 android {
-    compileSdkVersion 34
+    compileSdk 34
     defaultConfig {
         applicationId "tk.mohithaiyappa.coffeeprices"
         minSdkVersion 24
         targetSdkVersion 34
-        versionCode 24
-        versionName "1.9.2" //last updated on Tuesday the 27 Aug 2024, 11:27 PM
+        versionCode 25
+        versionName "1.9.3" //last updated on Wednesday the 23 Oct 2024, 11:27 PM
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -31,12 +31,12 @@ android {
         viewBinding true
     }
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = '17'
     }
-//    compileOptions {
-//        targetCompatibility = "8"
-//        sourceCompatibility = "8"
-//    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
     namespace 'tk.mohithaiyappa.coffeeprices'
 }
 
